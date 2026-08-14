@@ -1,51 +1,82 @@
 @import "tailwindcss";
 
-:root {
-  --brand-blue-deep: #0C3B5C;
-  --brand-navy: #082A43;
-  --brand-sand: #F5EDDC;
-  --brand-bone: #FCFAF5;
-  --brand-green: #1F8A5B;
-  --brand-gold: #C9A24B;
-  --brand-carbon: #21201C;
-}
-
 @theme {
-  --color-brand-blue-deep: var(--brand-blue-deep);
-  --color-brand-navy: var(--brand-navy);
-  --color-brand-sand: var(--brand-sand);
-  --color-brand-bone: var(--brand-bone);
-  --color-brand-green: var(--brand-green);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-carbon: var(--brand-carbon);
+  --color-brand-primary-bg: #FAFAFA;
+  --color-brand-secondary-bg: #FFFFFF;
+  --color-brand-text-primary: #020617;
+  --color-brand-text-secondary: #1E293B;
+  --color-brand-accent: #10B981;
+  --color-brand-accent-light: #34D399;
   
-  --font-sans: var(--font-public-sans), sans-serif;
-  --font-heading: var(--font-marcellus), serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
+  
+  --font-heading: var(--font-outfit);
 }
 
 @layer base {
+  :root {
+    --brand-primary-bg: #FAFAFA;
+    --brand-text-primary: #020617;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
   body {
-    background-color: var(--brand-bone);
-    color: var(--brand-carbon);
-    font-family: var(--font-sans);
-    font-size: 17px;
-    line-height: 1.6;
+    background-color: var(--brand-primary-bg);
+    color: var(--brand-text-primary);
+    font-family: var(--font-inter), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: normal;
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-outfit), sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
-  h1 {
-    font-size: clamp(34px, 6vw, 60px);
-    line-height: 1.1;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
-  h2 {
-    font-size: clamp(26px, 4vw, 40px);
-    line-height: 1.2;
+
+  .premium-image {
+    filter: contrast(105%) saturate(105%);
+    transition: filter 0.3s ease;
   }
-  h3 {
-    font-size: 22px;
+  .premium-image:hover {
+    filter: contrast(110%) saturate(110%);
   }
+  
+  .glass-premium {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+  }
+
+  .hairline-b {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  .hairline-t {
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-primary-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-accent);
 }

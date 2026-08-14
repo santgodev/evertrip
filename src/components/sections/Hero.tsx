@@ -1,79 +1,163 @@
 "use client";
 
+import type { Locale } from "@/i18n/config";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaWhatsapp, FaPlaneArrival } from "react-icons/fa";
+import { getWhatsAppLink } from "@/data/routes";
+import { ArrowRight, MapPin, Users } from "lucide-react";
+import { useState } from "react";
 
-export default function Hero() {
+const content = {
+  es: {
+    headingPart1: "TU VIAJE POR EL CARIBE",
+    headingPart2: "A TU RITMO.",
+    subheading: "Traslados privados exclusivos desde el aeropuerto hasta tu hotel. Confiable, seguro y sin estrés.",
+    cta: "Reservar Ahora",
+    quickQuote: "Cotización Rápida",
+    from: "Origen",
+    to: "Destino",
+    pax: "Pasajeros",
+  },
+  en: {
+    headingPart1: "YOUR CARIBBEAN JOURNEY",
+    headingPart2: "AT YOUR PACE.",
+    subheading: "Exclusive private transfers from the airport to your hotel. Reliable, safe, and stress-free.",
+    cta: "Book Now",
+    quickQuote: "Quick Quote",
+    from: "From",
+    to: "To",
+    pax: "Passengers",
+  },
+};
+
+export default function Hero({ locale }: { locale: Locale }) {
+  const t = content[locale] || content.es;
+  
+  const [formData, setFormData] = useState({
+    origin: "",
+    destination: "",
+    pax: "2"
+  });
+
+  const handleBooking = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = `*Cotización Rápida*\n\n*Ruta:* ${formData.origin} -> ${formData.destination}\n*Pasajeros:* ${formData.pax}`;
+    window.open(getWhatsAppLink(msg), "_blank");
+  };
+
   return (
-    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Video */}
-      <div className="absolute inset-0 z-0">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="w-full h-full object-cover"
-        >
-          <source src="/assets/White_van_driving_coastal_highway_202607061555.mp4" type="video/mp4" />
-        </video>
-        {/* Dark overlay for text contrast */}
-        <div className="absolute inset-0 bg-brand-navy/60 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-brand-navy/60"></div>
-      </div>
-      
-      <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-4xl flex flex-col items-center"
-        >
-          <div className="mb-6 flex flex-wrap justify-center gap-3">
-            <span className="px-4 py-1.5 bg-brand-sand text-brand-navy rounded-full text-xs font-bold tracking-widest uppercase shadow-sm">
-              Traslados Privados Premium
-            </span>
-          </div>
+    <section className="relative min-h-screen w-full bg-brand-primary-bg pt-24 pb-12 md:pt-32 md:pb-20 flex flex-col items-center justify-center overflow-hidden">
+      {/* Background abstract element (very subtle) */}
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-accent/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-500/5 rounded-full blur-[120px] -z-10" />
 
-          <h1 className="text-white mb-6 text-balance font-medium leading-tight">
-            Traslados privados puerta a puerta que puedes reservar por WhatsApp desde cualquier lugar.
-          </h1>
-          
-          <p className="text-lg md:text-2xl text-brand-bone/90 mb-10 max-w-2xl leading-relaxed font-light">
-            Experimenta la costa Caribe de Colombia con transporte seguro, confiable y cómodo. Sin buses compartidos, sin esperas.
-          </p>
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 w-full flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        
+        {/* Text Content */}
+        <div className="w-full lg:w-1/2 flex flex-col items-start pt-6 md:pt-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading leading-[1.05] text-brand-text-primary tracking-tight mb-4 md:mb-6">
+              <span className="block text-brand-text-secondary">{t.headingPart1}</span>
+              <span className="block text-brand-accent">{t.headingPart2}</span>
+            </h1>
+          </motion.div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <a
-              href="https://wa.me/573147659756?text=Necesito%20un%20traslado"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-brand-green text-white px-8 py-4 rounded-full hover:bg-green-700 transition-all shadow-lg hover:shadow-xl font-medium text-lg group"
-            >
-              <FaWhatsapp size={24} className="group-hover:scale-110 transition-transform" />
-              <span>Reserva por WhatsApp</span>
-            </a>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            <p className="text-base md:text-xl text-brand-text-secondary font-light max-w-lg mb-8 md:mb-10 leading-relaxed">
+              {t.subheading}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="w-full max-w-md bg-white p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100"
+          >
+            <h3 className="text-sm font-semibold text-brand-text-primary mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-brand-accent"></span>
+              {t.quickQuote}
+            </h3>
             
-            <a
-              href="#routes"
-              className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full hover:bg-white/20 transition-all shadow-md font-medium text-lg"
-            >
-              <FaPlaneArrival size={20} />
-              <span>Ver Rutas</span>
-            </a>
-          </div>
+            <form onSubmit={handleBooking} className="flex flex-col gap-4">
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-text-secondary">
+                  <MapPin size={18} />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder={t.from}
+                  required
+                  value={formData.origin}
+                  onChange={(e) => setFormData({...formData, origin: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all"
+                />
+              </div>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-text-secondary">
+                  <MapPin size={18} />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder={t.to}
+                  required
+                  value={formData.destination}
+                  onChange={(e) => setFormData({...formData, destination: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all"
+                />
+              </div>
+              <div className="flex gap-4">
+                <div className="relative w-full">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-text-secondary">
+                    <Users size={18} />
+                  </div>
+                  <input 
+                    type="number" 
+                    min="1"
+                    placeholder={t.pax}
+                    required
+                    value={formData.pax}
+                    onChange={(e) => setFormData({...formData, pax: e.target.value})}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  className="bg-brand-accent hover:bg-brand-accent-light text-white px-6 rounded-xl flex items-center justify-center transition-colors shadow-md hover:shadow-brand-accent/30"
+                >
+                  <ArrowRight size={20} />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
 
-          {/* Trust Chips */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-brand-bone font-medium">
-            <div className="flex items-center gap-2">
-              <span className="text-brand-gold text-xl">★</span> 5.0 Reseñas en Google
-            </div>
-            <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/80 hidden sm:block"></div>
-            <div>Conductores Locales Profesionales</div>
-            <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/80 hidden sm:block"></div>
-            <div>Vans con Aire Acondicionado</div>
-          </div>
-        </motion.div>
+        {/* Image Showcase */}
+        <div className="w-full lg:w-1/2 relative min-h-[250px] aspect-[16/9] lg:aspect-[4/3] mt-8 lg:mt-0">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src="/assets/hero.png"
+              alt="Premium private transfer"
+              fill
+              priority
+              className="object-cover rounded-[32px] premium-image shadow-2xl"
+            />
+          </motion.div>
+        </div>
+        
       </div>
     </section>
   );

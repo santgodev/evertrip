@@ -3,75 +3,106 @@
 import { useState } from "react";
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
+import type { Locale } from "@/i18n/config";
+import { motion, AnimatePresence } from "framer-motion";
 
-const videos = [
-  {
-    id: "v1",
-    title: "Welcome / who we are",
-    description: "When you land, you'll know exactly who's picking you up.",
-    thumbnail: "https://images.unsplash.com/photo-1516939884455-1445c8652f83?auto=format&fit=crop&q=80",
+const content = {
+  es: {
+    heading: "TRANSPARENCIA TOTAL",
+    title: "Conoce a tu equipo.",
+    subtitle: "Personas reales al volante. Descubre por qué el lujo también reside en la confianza.",
+    videos: [
+      { id: "v1", title: "Nuestra Filosofía", description: "El estándar de oro en hospitalidad." },
+      { id: "v2", title: "La Flota por Dentro", description: "Detalles que marcan la diferencia." },
+      { id: "v3", title: "Operación", description: "Puntualidad suiza, calidez caribeña." },
+    ],
   },
-  {
-    id: "v2",
-    title: "How private transfers work",
-    description: "Direct, private, door-to-door. See the van inside.",
-    thumbnail: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80",
+  en: {
+    heading: "TOTAL TRANSPARENCY",
+    title: "Meet your team.",
+    subtitle: "Real people behind the wheel. Discover why luxury also lies in trust.",
+    videos: [
+      { id: "v1", title: "Our Philosophy", description: "The gold standard in hospitality." },
+      { id: "v2", title: "Inside the Fleet", description: "Details that make the difference." },
+      { id: "v3", title: "Operation", description: "Swiss punctuality, Caribbean warmth." },
+    ],
   },
-  {
-    id: "v3",
-    title: "Airport pickup & booking",
-    description: "Flight tracking and easy WhatsApp communication.",
-    thumbnail: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80",
-  },
-  {
-    id: "v4",
-    title: "Why private transportation",
-    description: "Safety, comfort, and zero stress with luggage.",
-    thumbnail: "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&q=80",
-  },
+};
+
+const thumbnails = [
+  "/assets/lugares/real-suv.jpg",
+  "/assets/lugares/real-bus-interior.jpg",
+  "/assets/lugares/real-airport-transfer.jpg",
 ];
 
-export default function VideoTrustWall() {
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+export default function VideoTrustWall({ locale }: { locale: Locale }) {
+  const t = content[locale] || content.es;
+  const [activeVid, setActiveVid] = useState(0);
 
   return (
-    <section className="py-24 bg-brand-bone">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-brand-navy mb-4">Meet your local travel support before you book</h2>
-          <p className="text-brand-carbon/80 text-lg">
-            We are real people behind the wheel. Watch our short videos to see why travelers trust us across Colombia&apos;s Caribbean coast.
-          </p>
+    <section className="py-32 bg-brand-primary-bg relative border-t hairline-t overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-12">
+          <div className="max-w-2xl">
+            <p className="text-brand-accent tracking-[0.3em] text-[10px] font-semibold uppercase mb-4">{t.heading}</p>
+            <h2 className="text-4xl md:text-6xl font-heading text-brand-text-primary uppercase tracking-widest mb-6">
+              {t.title}
+            </h2>
+            <p className="text-brand-text-secondary text-lg font-light leading-relaxed">
+              {t.subtitle}
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {videos.map((vid) => (
-            <div key={vid.id} className="group cursor-pointer flex flex-col gap-4">
-              <div 
-                className="relative aspect-[9/16] rounded-2xl overflow-hidden shadow-lg bg-brand-navy flex items-center justify-center"
-                onClick={() => setActiveVideo(vid.id)}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+          
+          {/* Main Video Display */}
+          <div className="md:col-span-8 relative h-[500px] md:h-[700px] w-full group cursor-pointer overflow-hidden rounded-[32px] shadow-lg">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeVid}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0"
               >
-                {/* Facade pattern: Show image until clicked */}
                 <Image
-                  src={vid.thumbnail}
-                  alt={vid.title}
+                  src={thumbnails[activeVid]}
+                  alt={t.videos[activeVid].title}
                   fill
-                  className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover editorial-image group-hover:scale-105 transition-transform duration-[2s] ease-out"
                 />
-                <div className="absolute inset-0 bg-brand-navy/30 group-hover:bg-brand-navy/10 transition-colors"></div>
+                <div className="absolute inset-0 bg-brand-primary-bg/20"></div>
                 
-                {/* Play Button */}
-                <div className="absolute z-10 w-14 h-14 bg-brand-gold/90 rounded-full flex items-center justify-center text-white shadow-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
-                  <FaPlay className="ml-1" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-20 h-20 border border-brand-text-primary/30 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:border-brand-accent transition-colors duration-500">
+                    <FaPlay className="text-brand-text-primary ml-1 group-hover:text-brand-accent transition-colors duration-500" />
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <h3 className="font-heading text-xl text-brand-navy mb-2">{vid.title}</h3>
-                <p className="text-sm text-brand-carbon/70">{vid.description}</p>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Video List */}
+          <div className="md:col-span-4 flex flex-col justify-center space-y-8">
+            {t.videos.map((vid, idx) => (
+              <button
+                key={vid.id}
+                onClick={() => setActiveVid(idx)}
+                className={`text-left group flex flex-col gap-2 transition-opacity duration-300 ${activeVid === idx ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
+              >
+                <span className="text-[10px] tracking-[0.2em] font-semibold text-brand-accent uppercase">
+                  Capítulo 0{idx + 1}
+                </span>
+                <h3 className="text-2xl font-heading text-brand-text-primary transition-colors">
+                  {vid.title}
+                </h3>
+                <div className={`h-[1px] bg-brand-text-primary/20 transition-all duration-500 mt-2 ${activeVid === idx ? 'w-full' : 'w-0 group-hover:w-12'}`}></div>
+              </button>
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

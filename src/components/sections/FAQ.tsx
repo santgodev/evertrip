@@ -1,113 +1,73 @@
 "use client";
 
 import { useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { ChevronDown } from "lucide-react";
+import type { Locale } from "@/i18n/config";
+import { getWhatsAppLink } from "@/data/routes";
+import { faqsByLocale } from "@/data/faq";
 
-const faqs = [
-  {
-    q: "How do I book a transfer?",
-    a: "Booking is simple: just click any WhatsApp button on our site. Send us your travel dates, route, and number of passengers, and we'll reply within minutes with a quote and confirmation."
+const content = {
+  es: {
+    heading: "Preguntas Frecuentes",
+    subtitle: "Todo lo que necesitas saber sobre nuestros traslados privados.",
+    stillQuestions: "¿Aún tienes preguntas?",
+    ask: "Pregúntanos por WhatsApp",
+    waMessage: "Hola, tengo una pregunta sobre los traslados.",
   },
-  {
-    q: "Are the prices per person or per vehicle?",
-    a: "Our prices are per vehicle, not per person. This makes our private transfers an excellent value for couples, families, and groups."
+  en: {
+    heading: "Frequently Asked Questions",
+    subtitle: "Everything you need to know about our private transfers.",
+    stillQuestions: "Still have questions?",
+    ask: "Ask us on WhatsApp",
+    waMessage: "Hi, I have a question about the transfers.",
   },
-  {
-    q: "Will I share the van with other people?",
-    a: "No. All our transfers are 100% private. It will just be you, your group, and the driver."
-  },
-  {
-    q: "Do you track my flight for airport pickups?",
-    a: "Yes! When you book an airport pickup, we ask for your flight number. We track your flight in real-time and will be there when you land, even if you are delayed."
-  },
-  {
-    q: "Where exactly will the driver meet me at the airport?",
-    a: "Your driver will be waiting in the arrivals area holding a sign with your name. We'll also send you a WhatsApp message when you land to ensure a smooth meeting."
-  },
-  {
-    q: "Do your drivers speak English?",
-    a: "We have bilingual support available via WhatsApp throughout your journey. While some of our local professional drivers speak basic English, our support team is always connected to translate and assist."
-  },
-  {
-    q: "What kind of vehicles do you use?",
-    a: "We use modern, spacious vans that are fully air-conditioned and rigorously maintained for safety and comfort."
-  },
-  {
-    q: "Do you provide child seats?",
-    a: "Yes, child seats are available upon request. Please let us know the age and weight of your child when booking."
-  },
-  {
-    q: "How much luggage can we bring?",
-    a: "Our vans can comfortably hold up to a certain number of large suitcases and carry-ons. When booking, let us know how much luggage you have so we ensure the right vehicle."
-  },
-  {
-    q: "Can we make a stop along the way?",
-    a: "Absolutely. Since the transfer is private, we can arrange short stops for restrooms or snacks. Just let us know in advance or inform the driver."
-  },
-  {
-    q: "How do I pay?",
-    a: "We offer secure and flexible payment options which we will confirm with you via WhatsApp during the booking process."
-  },
-  {
-    q: "What is your cancellation policy?",
-    a: "We understand plans change. We offer flexible cancellations up to a certain time before your trip. Please review our full cancellation policy or ask us on WhatsApp."
-  }
-];
+};
 
-export default function FAQ() {
+export default function FAQ({ locale }: { locale: Locale }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const t = content[locale] || content.es;
+  const faqs = faqsByLocale[locale] || faqsByLocale.es;
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section id="faq" className="py-24 bg-brand-deep-blue text-brand-bone">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <section id="faq" className="py-24 bg-white relative border-t border-slate-100">
+      <div className="container mx-auto px-6 max-w-3xl relative z-10">
         <div className="text-center mb-16">
-          <h2 className="mb-4">Frequently Asked Questions</h2>
-          <p className="text-brand-bone/80 text-lg">
-            Everything you need to know about our private transfers.
-          </p>
+          <h2 className="text-4xl md:text-5xl font-heading text-brand-text-primary mb-4">{t.heading}</h2>
+          <p className="text-brand-text-secondary text-lg">{t.subtitle}</p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, i) => (
-            <div 
-              key={i} 
-              className="bg-brand-navy rounded-xl border border-brand-gold/10 overflow-hidden transition-all duration-300"
-            >
+            <div key={i} className="bg-slate-50 border border-slate-100 rounded-[24px] overflow-hidden transition-all duration-300">
               <button
-                className="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none"
+                className="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none"
                 onClick={() => toggle(i)}
                 aria-expanded={openIndex === i}
               >
-                <span className="font-heading text-lg pr-8">{faq.q}</span>
-                <FaChevronDown 
-                  className={`text-brand-gold transition-transform duration-300 shrink-0 ${openIndex === i ? 'rotate-180' : ''}`} 
-                />
+                <span className="font-semibold text-brand-text-primary text-lg pr-8">{faq.q}</span>
+                <ChevronDown className={`text-brand-accent transition-transform duration-300 shrink-0 ${openIndex === i ? "rotate-180" : ""}`} />
               </button>
-              
-              <div 
-                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${openIndex === i ? 'max-h-[500px] opacity-100 pb-5' : 'max-h-0 opacity-0'}`}
-              >
-                <p className="text-brand-bone/70 leading-relaxed border-t border-brand-bone/10 pt-4">
-                  {faq.a}
-                </p>
+
+              <div className={`px-8 overflow-hidden transition-all duration-300 ease-in-out ${openIndex === i ? "max-h-[500px] opacity-100 pb-6" : "max-h-0 opacity-0"}`}>
+                <p className="text-brand-text-secondary leading-relaxed border-t border-slate-200 pt-5">{faq.a}</p>
               </div>
             </div>
           ))}
         </div>
-        
-        <div className="text-center mt-12">
-          <p className="text-brand-bone/80 mb-4">Still have questions?</p>
+
+        <div className="text-center mt-16 bg-slate-50 border border-slate-100 rounded-[24px] p-8">
+          <p className="text-brand-text-primary font-semibold mb-2">{t.stillQuestions}</p>
           <a
-            href="https://wa.me/573147659756"
+            href={getWhatsAppLink(t.waMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-brand-gold font-semibold hover:text-white transition-colors underline underline-offset-4"
+            className="inline-block text-brand-accent font-semibold hover:text-brand-accent-light transition-colors"
           >
-            Ask us directly on WhatsApp
+            {t.ask} <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </div>

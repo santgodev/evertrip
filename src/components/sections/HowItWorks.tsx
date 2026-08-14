@@ -1,52 +1,84 @@
-export default function HowItWorks() {
-  const steps = [
-    {
-      num: "01",
-      title: "Get a Quick Quote",
-      desc: "Message us on WhatsApp with your travel dates, route, and number of passengers. We reply within minutes."
-    },
-    {
-      num: "02",
-      title: "Confirm Your Transfer",
-      desc: "Review your quote and confirm. We'll send you a booking summary and instructions for your pickup."
-    },
-    {
-      num: "03",
-      title: "Meet Your Driver",
-      desc: "Your professional driver will be waiting for you at the airport arrivals or your hotel lobby at the exact time."
-    },
-    {
-      num: "04",
-      title: "Enjoy the Ride",
-      desc: "Sit back in our air-conditioned private van and enjoy a seamless journey to your destination."
-    }
-  ];
+"use client";
+
+import type { Locale } from "@/i18n/config";
+import { motion } from "framer-motion";
+import { Map, Coffee, ShieldCheck } from "lucide-react";
+
+const content = {
+  es: {
+    sectionTag: "POR QUÉ ELEGIRNOS",
+    heading: "La forma inteligente de viajar",
+    features: [
+      {
+        icon: <Map className="w-8 h-8 text-brand-accent" />,
+        title: "Te esperamos en el aeropuerto",
+        desc: "Sin filas, sin negociar con taxis. Un conductor profesional te recibirá con un cartel y una sonrisa apenas aterrices."
+      },
+      {
+        icon: <Coffee className="w-8 h-8 text-brand-accent" />,
+        title: "Paradas Flexibles",
+        desc: "¿Hambre en el camino? ¿Quieres tomar una foto? Tú mandas. Hacemos paradas sin costo adicional para que disfrutes."
+      },
+      {
+        icon: <ShieldCheck className="w-8 h-8 text-brand-accent" />,
+        title: "Flota Moderna y Segura",
+        desc: "Vehículos climatizados, cómodos y mantenidos bajo los más altos estándares. Tu seguridad es nuestra absoluta prioridad."
+      }
+    ]
+  },
+  en: {
+    sectionTag: "WHY CHOOSE US",
+    heading: "The smarter way to travel",
+    features: [
+      {
+        icon: <Map className="w-8 h-8 text-brand-accent" />,
+        title: "We wait for you at the airport",
+        desc: "No lines, no haggling with taxis. A professional driver will greet you with a sign and a smile as soon as you land."
+      },
+      {
+        icon: <Coffee className="w-8 h-8 text-brand-accent" />,
+        title: "Flexible Stops",
+        desc: "Hungry on the road? Want to take a photo? You are the boss. We make stops at no extra cost so you can enjoy."
+      },
+      {
+        icon: <ShieldCheck className="w-8 h-8 text-brand-accent" />,
+        title: "Modern & Safe Fleet",
+        desc: "Air-conditioned, comfortable vehicles maintained to the highest standards. Your safety is our absolute priority."
+      }
+    ]
+  }
+};
+
+export default function HowItWorks({ locale }: { locale: Locale }) {
+  const t = content[locale] || content.es;
 
   return (
-    <section id="how-it-works" className="py-24 bg-brand-deep-blue text-brand-bone relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-navy/40 -skew-x-12 transform origin-top pointer-events-none"></div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="mb-4">How it works</h2>
-          <p className="text-brand-bone/80 text-lg">
-            Zero friction, zero stress. Booking your private transfer should be as relaxing as a Caribbean sunset.
-          </p>
+    <section className="py-24 bg-brand-primary-bg relative border-t border-slate-100" id="how-it-works">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="text-center mb-20">
+          <p className="text-brand-accent tracking-[0.2em] text-xs font-semibold uppercase mb-4">{t.sectionTag}</p>
+          <h2 className="text-4xl md:text-5xl font-heading text-brand-text-primary mb-4">{t.heading}</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-          {/* Horizontal Line for Desktop */}
-          <div className="hidden lg:block absolute top-[45px] left-[12%] right-[12%] h-[1px] bg-brand-gold/30"></div>
-
-          {steps.map((step, i) => (
-            <div key={i} className="relative flex flex-col items-center text-center group">
-              <div className="w-[90px] h-[90px] rounded-full bg-brand-navy border border-brand-gold/40 flex items-center justify-center mb-8 relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <span className="font-heading text-3xl text-brand-gold">{step.num}</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+          {t.features.map((feature, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.15, duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col items-center text-center group"
+            >
+              <div className="w-20 h-20 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                {feature.icon}
               </div>
-              <h3 className="font-heading text-xl mb-3">{step.title}</h3>
-              <p className="text-sm text-brand-bone/70 leading-relaxed max-w-xs">{step.desc}</p>
-            </div>
+              
+              <h3 className="font-heading text-2xl text-brand-text-primary mb-4">{feature.title}</h3>
+              <p className="text-base text-brand-text-secondary leading-relaxed max-w-sm">
+                {feature.desc}
+              </p>
+            </motion.div>
           ))}
         </div>
       </div>

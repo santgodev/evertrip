@@ -1,142 +1,122 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { FaClock, FaStar, FaWhatsapp } from "react-icons/fa";
+import type { Locale } from "@/i18n/config";
+import { routes, getPriceCards } from "@/data/routes";
+import { motion } from "framer-motion";
+import { Clock, MapPin, Star, Users } from "lucide-react";
 
-const routes = [
-  {
-    title: "Santa Marta ↔ Cartagena",
-    time: "4.5 hours",
-    idealFor: "Couples & Families",
-    benefit: "Scenic door-to-door comfort",
-    image: "https://images.unsplash.com/photo-1583508460613-2895105b4b1a?auto=format&fit=crop&q=80",
-    slug: "private-transfer-santa-marta-cartagena",
-    message: "Hi! I need a transfer between Santa Marta and Cartagena."
+const content = {
+  es: {
+    heading: "Destinos Destacados",
+    subheading: "NUESTRAS RUTAS",
+    viewAll: "Ver todas las rutas",
+    from: "Desde",
   },
-  {
-    title: "Santa Marta Airport ↔ City",
-    time: "30-40 mins",
-    idealFor: "All Travelers",
-    benefit: "Flight tracking included",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80",
-    slug: "santa-marta-airport-transfer",
-    message: "Hi! I need an airport pickup in Santa Marta."
+  en: {
+    heading: "Featured Destinations",
+    subheading: "OUR ROUTES",
+    viewAll: "View all routes",
+    from: "From",
   },
-  {
-    title: "Cartagena Airport ↔ Santa Marta",
-    time: "4.5 hours",
-    idealFor: "International Arrivals",
-    benefit: "Direct transfer upon landing",
-    image: "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&q=80",
-    slug: "cartagena-airport-to-santa-marta",
-    message: "Hi! I need a transfer from Cartagena Airport to Santa Marta."
-  },
-  {
-    title: "Santa Marta ↔ Palomino",
-    time: "1.5 hours",
-    idealFor: "Backpackers & Couples",
-    benefit: "Spacious van for luggage",
-    image: "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&q=80",
-    slug: "santa-marta-to-palomino",
-    message: "Hi! I need a transfer to Palomino."
-  },
-  {
-    title: "Santa Marta ↔ Tayrona",
-    time: "45 mins",
-    idealFor: "Nature Enthusiasts",
-    benefit: "Early drop-offs available",
-    image: "https://images.unsplash.com/photo-1516939884455-1445c8652f83?auto=format&fit=crop&q=80",
-    slug: "santa-marta-to-tayrona",
-    message: "Hi! I need a transfer to Tayrona Park."
-  },
-  {
-    title: "Santa Marta ↔ Minca",
-    time: "45 mins",
-    idealFor: "Mountain Retreats",
-    benefit: "Safe driving on steep roads",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80",
-    slug: "santa-marta-to-minca",
-    message: "Hi! I need a transfer to Minca."
-  },
-  {
-    title: "Cartagena ↔ Barranquilla",
-    time: "2.5 hours",
-    idealFor: "Business & Events",
-    benefit: "Punctual & professional",
-    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80",
-    slug: "cartagena-to-barranquilla",
-    message: "Hi! I need a transfer between Cartagena and Barranquilla."
-  },
-  {
-    title: "Custom Routes",
-    time: "Flexible",
-    idealFor: "Large Groups",
-    benefit: "Tailored to your itinerary",
-    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80",
-    slug: "custom-private-routes",
-    message: "Hi! I want a quote for a custom route."
-  }
+};
+
+const featuredSlugs = [
+  "private-transfer-santa-marta-cartagena",
+  "santa-marta-to-minca",
+  "cartagena-airport-to-santa-marta",
+  "barranquilla-to-palomino",
+  "barranquilla-to-santa-marta",
+  "santa-marta-to-tayrona",
 ];
 
-export default function RoutesGrid() {
+export default function RoutesGrid({ locale }: { locale: Locale }) {
+  const t = content[locale] || content.es;
+  const cards = featuredSlugs
+    .map((slug) => routes.find((r) => r.slug === slug))
+    .filter((r): r is NonNullable<typeof r> => Boolean(r));
+
   return (
-    <section id="routes" className="py-24 bg-brand-sand">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-brand-navy mb-4">Popular Private Transfers</h2>
-          <p className="text-brand-carbon/80 text-lg">
-            Travel seamlessly across Colombia&apos;s Caribbean coast. No sharing with strangers, just comfort and reliability.
-          </p>
+    <section id="routes" className="py-16 md:py-24 bg-brand-light-bg relative border-t border-slate-100">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
+          <div>
+            <p className="text-brand-accent tracking-[0.2em] text-xs font-semibold uppercase mb-4">{t.subheading}</p>
+            <h2 className="text-3xl md:text-5xl font-heading text-brand-text-primary">{t.heading}</h2>
+          </div>
+          <Link 
+            href={`/${locale}/all-routes`} 
+            className="flex items-center gap-2 text-sm font-semibold text-brand-text-secondary hover:text-brand-accent transition-colors"
+          >
+            {t.viewAll} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {routes.map((route, i) => (
-            <div key={i} className="bg-brand-bone rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full border border-brand-gold/10 group">
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src={route.image}
-                  alt={route.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 bg-brand-navy/90 text-brand-bone text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm shadow-sm flex items-center gap-1.5">
-                  <FaClock className="text-brand-gold" /> {route.time}
-                </div>
-              </div>
-              
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="font-heading text-xl text-brand-navy mb-3">{route.title}</h3>
-                
-                <div className="space-y-2 mb-6 text-sm text-brand-carbon/80">
-                  <div className="flex items-center gap-2">
-                    <FaStar className="text-brand-gold" />
-                    <span><strong>Ideal for:</strong> {route.idealFor}</span>
+        <div className="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {cards.map((route, idx) => {
+            const priceCards = getPriceCards(route);
+            const lowestPrice = priceCards.length > 0 ? priceCards[0].price : null;
+
+            return (
+              <Link 
+                key={route.slug} 
+                href={`/${locale}/${route.slug}`}
+                className="group min-w-[300px] w-[85vw] md:w-auto shrink-0 snap-center"
+              >
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: idx * 0.15, duration: 0.6 }}
+                  className="bg-white rounded-[24px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 relative h-[420px] w-full group-hover:-translate-y-1"
+                >
+                  <Image
+                    src={route.image || "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&q=80"}
+                    alt={route.h1[locale]}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10"></div>
+                  
+                  {lowestPrice && (
+                    <div className="absolute top-5 right-5 bg-white text-brand-text-primary px-3 py-1.5 rounded-full text-xs font-bold shadow-md">
+                      {t.from} {lowestPrice}
+                    </div>
+                  )}
+
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-white flex flex-col justify-end h-full">
+                    <h3 className="text-xl md:text-2xl font-heading font-bold mb-3 leading-tight">{route.h1[locale]}</h3>
+                    
+                    <div className="flex items-center gap-3 text-xs md:text-sm font-medium text-white/90 mb-4">
+                      <div className="flex items-center gap-1.5">
+                        <Users size={14} className="text-white/70" />
+                        <span>{route.idealFor[locale]}</span>
+                      </div>
+                      <div className="w-px h-3 bg-white/30"></div>
+                      <div className="flex items-center gap-1.5">
+                        <Clock size={14} className="text-white/70" />
+                        <span>{route.duration[locale]}</span>
+                      </div>
+                    </div>
+
+                    <div className="h-px w-full bg-white/20 mb-4"></div>
+
+                    <div className="flex items-center justify-between text-sm font-semibold">
+                      <div className="flex items-center gap-1.5 text-white">
+                        <MapPin size={16} className="text-red-500 fill-red-500" />
+                        <span>Costa Caribe</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-white">
+                        <Star size={14} className="fill-white" />
+                        <span>4.8</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/80 ml-1"></div>
-                    <span className="ml-[3px]">{route.benefit}</span>
-                  </div>
-                </div>
-                
-                <div className="mt-auto pt-4 border-t border-brand-navy/5 flex items-center justify-between gap-4">
-                  <Link 
-                    href={`/${route.slug}`} 
-                    className="text-sm font-semibold text-brand-navy hover:text-brand-gold transition-colors whitespace-nowrap"
-                  >
-                    View Details →
-                  </Link>
-                  <a
-                    href={`https://wa.me/573147659756?text=${encodeURIComponent(route.message)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-brand-green/10 text-brand-green hover:bg-brand-green hover:text-white p-3 rounded-full transition-colors shrink-0"
-                    aria-label="Book on WhatsApp"
-                  >
-                    <FaWhatsapp size={20} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

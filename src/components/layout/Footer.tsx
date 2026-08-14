@@ -1,58 +1,79 @@
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
+import { dictionaries } from "@/i18n/dictionaries";
+import type { Locale } from "@/i18n/config";
+import { getWhatsAppLink } from "@/data/routes";
+import Image from "next/image";
 
-export default function Footer() {
+export default function Footer({ locale }: { locale: Locale }) {
+  const dict = dictionaries[locale];
+  const quoteMessage =
+    locale === "es" ? "Hola, quiero cotizar un traslado." : "Hi, I'd like a quote for a transfer.";
+
   return (
-    <footer className="bg-brand-navy text-brand-bone py-16">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
-        {/* Brand & NAP */}
-        <div>
-          <h3 className="font-heading text-2xl tracking-widest text-brand-gold mb-6">EVERTRIP</h3>
-          <address className="not-italic text-brand-bone/80 space-y-2 text-sm">
-            <p><strong>VIAJES Y TOURS EVERTRIP</strong></p>
-            <p>Santa Marta, Cartagena, Palomino, Tayrona, Minca</p>
-            <p>Colombia&apos;s Caribbean Coast</p>
-            <p className="mt-4 flex items-center gap-2">
-              <FaWhatsapp className="text-brand-green" size={18} />
-              <a href="https://wa.me/573147659756" className="hover:text-brand-gold transition-colors">
-                +57 314 765 9756
-              </a>
-            </p>
-          </address>
-        </div>
+    <footer className="bg-[#030807] text-brand-text-primary py-20 relative overflow-hidden border-t border-white/5">
+      {/* Subtle radial gradient */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-accent/5 blur-[120px] rounded-[100%] pointer-events-none"></div>
 
-        {/* Links */}
-        <div>
-          <h4 className="font-heading text-xl mb-6">Quick Links</h4>
-          <ul className="space-y-3 text-sm text-brand-bone/80">
-            <li><Link href="#routes" className="hover:text-brand-gold transition-colors">Popular Routes</Link></li>
-            <li><Link href="#how-it-works" className="hover:text-brand-gold transition-colors">How It Works</Link></li>
-            <li><Link href="#faq" className="hover:text-brand-gold transition-colors">FAQ</Link></li>
-            <li><Link href="/privacy-policy" className="hover:text-brand-gold transition-colors">Privacy Policy</Link></li>
-            <li><Link href="/terms" className="hover:text-brand-gold transition-colors">Terms of Service</Link></li>
-            <li><Link href="/cancellation-policy" className="hover:text-brand-gold transition-colors">Cancellation Policy</Link></li>
-          </ul>
-        </div>
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+          
+          <div className="md:col-span-5 lg:col-span-4 flex flex-col items-start">
+            <Link href={`/${locale}`} className="hover:opacity-80 transition-opacity mb-6 inline-block">
+              <Image
+                src="/assets/evertrip_logo_alta_resolucion.png"
+                alt="Evertrip Logo"
+                width={56}
+                height={56}
+                className="w-12 h-12 object-cover rounded-full"
+              />
+            </Link>
+            <address className="not-italic text-brand-text-secondary space-y-3 text-sm font-light leading-relaxed">
+              <p className="font-medium text-brand-text-primary">VIAJES Y TOURS EVERTRIP</p>
+              <p>Barranquilla, Santa Marta, Cartagena, Palomino, Valledupar</p>
+              <p>{dict.footer.tagline}</p>
+              <p className="mt-6">
+                <a href="https://wa.me/573147659756" className="inline-flex items-center gap-2 hover:text-brand-accent-light transition-colors font-medium text-brand-text-primary">
+                  <FaWhatsapp className="text-brand-accent" size={18} />
+                  +57 314 765 9756
+                </a>
+              </p>
+            </address>
+          </div>
 
-        {/* Final CTA */}
-        <div>
-          <h4 className="font-heading text-xl mb-6">Ready to book?</h4>
-          <p className="text-sm text-brand-bone/80 mb-6 leading-relaxed">
-            Message us directly on WhatsApp. We usually reply within minutes to provide you with a quote and confirm your private transfer.
-          </p>
-          <a
-            href="https://wa.me/573147659756"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-brand-green text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors shadow-md font-medium"
-          >
-            <FaWhatsapp size={22} />
-            <span>Get a quote on WhatsApp</span>
-          </a>
+          <div className="md:col-span-3 lg:col-span-4 lg:pl-12">
+            <h4 className="font-normal text-lg mb-6 text-brand-text-primary">{dict.footer.quickLinks}</h4>
+            <ul className="space-y-4 text-sm text-brand-text-secondary font-light">
+              <li><Link href={`/${locale}#routes`} className="hover:text-brand-accent-light transition-colors">{dict.footer.popularRoutes}</Link></li>
+              <li><Link href={`/${locale}#how-it-works`} className="hover:text-brand-accent-light transition-colors">{dict.footer.howItWorks}</Link></li>
+              <li><Link href={`/${locale}#faq`} className="hover:text-brand-accent-light transition-colors">{dict.footer.faq}</Link></li>
+              <li><Link href={`/${locale}/privacy-policy`} className="hover:text-brand-text-primary transition-colors">{dict.footer.privacy}</Link></li>
+              <li><Link href={`/${locale}/terms`} className="hover:text-brand-text-primary transition-colors">{dict.footer.terms}</Link></li>
+              <li><Link href={`/${locale}/cancellation-policy`} className="hover:text-brand-text-primary transition-colors">{dict.footer.cancellation}</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-4 lg:col-span-4">
+            <h4 className="font-normal text-lg mb-6 text-brand-text-primary">{dict.footer.readyToBook}</h4>
+            <p className="text-sm text-brand-text-secondary mb-8 leading-relaxed font-light">{dict.footer.readyToBookCopy}</p>
+            <a
+              href={getWhatsAppLink(quoteMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full sm:w-auto gap-3 bg-brand-accent text-white px-8 py-4 rounded-[24px] font-medium text-sm tracking-wide transition-all duration-300 hover:bg-brand-accent-light hover:text-brand-primary-bg shadow-[0_10px_30px_rgba(31,138,91,0.2)] hover:shadow-[0_15px_40px_rgba(180,237,80,0.3)] hover:-translate-y-1"
+            >
+              <FaWhatsapp size={20} />
+              <span>{dict.footer.getQuote}</span>
+            </a>
+          </div>
         </div>
-      </div>
-      <div className="container mx-auto px-4 mt-16 pt-8 border-t border-brand-bone/10 text-center text-xs text-brand-bone/60">
-        &copy; {new Date().getFullYear()} VIAJES Y TOURS EVERTRIP. All rights reserved.
+        
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-text-secondary/60 font-light">
+          <p>&copy; {new Date().getFullYear()} VIAJES Y TOURS EVERTRIP. {dict.footer.rights}</p>
+          <div className="flex gap-4">
+            <span className="opacity-50">Diseño Premium</span>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -1,47 +1,84 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { FaWhatsapp } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { type Locale } from "@/i18n/config";
+import { dictionaries } from "@/i18n/dictionaries";
+import { getWhatsAppLink } from "@/data/routes";
+import { motion } from "framer-motion";
 
-export default function Navbar() {
+export default function Navbar({ locale }: { locale: Locale }) {
+  const dict = dictionaries[locale];
+  const segments = ["", locale === "es" ? "en" : "es"];
+  const toggleHref = "/" + segments.join("/");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 z-50 w-full bg-brand-deep-blue/90 backdrop-blur-md text-brand-bone border-b border-brand-gold/20 shadow-md">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="hover:opacity-80 transition-opacity flex items-center">
-          <Image 
-            src="/assets/evertrip_logo_alta_resolucion.png" 
-            alt="VIAJES Y TOURS EVERTRIP" 
-            width={180} 
-            height={50} 
-            className="h-10 w-auto object-contain rounded-full"
+    <header className="fixed top-0 z-50 w-full pt-4 px-4 transition-all duration-500">
+      <motion.div 
+        className={`max-w-7xl mx-auto rounded-[32px] px-6 py-3 flex items-center justify-between transition-all duration-500 border border-slate-200/50 ${scrolled ? 'glass-premium shadow-lg py-2' : 'bg-transparent py-4'}`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Link href={`/${locale}`} className="hover:opacity-80 transition-opacity flex items-center">
+          <Image
+            src="/assets/evertrip_logo_alta_resolucion.png"
+            alt="Evertrip Logo"
+            width={48}
+            height={48}
+            className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full"
             priority
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <Link href="#routes" className="hover:text-brand-gold transition-colors">Rutas</Link>
-          <Link href="#how-it-works" className="hover:text-brand-gold transition-colors">Cómo funciona</Link>
-          <Link href="#faq" className="hover:text-brand-gold transition-colors">Preguntas Frecuentes</Link>
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-brand-text-primary/70">
+          <Link href={`/${locale}#routes`} className="hover:text-brand-accent transition-colors">
+            {dict.nav.routes}
+          </Link>
+          <Link href={`/${locale}#how-it-works`} className="hover:text-brand-accent transition-colors">
+            {dict.nav.howItWorks}
+          </Link>
+          <Link href={`/${locale}#faq`} className="hover:text-brand-accent transition-colors">
+            {dict.nav.faq}
+          </Link>
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          <button className="text-sm font-semibold hover:text-brand-gold transition-colors uppercase tracking-wider">
-            ES <span className="opacity-50 mx-1">|</span> EN
-          </button>
-          
+        <div className="flex items-center gap-6">
+          <Link
+            href={toggleHref}
+            className="text-xs font-bold tracking-widest text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+          >
+            {locale === "es" ? (
+              <>
+                <span className="text-brand-text-primary">ES</span> <span className="opacity-30 mx-1">|</span> EN
+              </>
+            ) : (
+              <>
+                ES <span className="opacity-30 mx-1">|</span> <span className="text-brand-text-primary">EN</span>
+              </>
+            )}
+          </Link>
+
           <a
-            href="https://wa.me/573147659756?text=Hi%20EverTrip,%20I%20would%20like%20to%20get%20a%20quote."
+            href={getWhatsAppLink(locale === "es" ? "Hola EverTrip, quiero cotizar un viaje." : "Hi EverTrip, I would like to get a quote.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-2 bg-brand-green text-white px-5 py-2.5 rounded-full hover:bg-green-700 transition-colors shadow-sm font-medium"
+            className="hidden sm:flex items-center justify-center bg-brand-accent text-white px-8 py-3 rounded-[24px] text-xs font-bold tracking-wider uppercase transition-all duration-300 hover:bg-brand-accent-light hover:scale-105 shadow-md hover:shadow-brand-accent/30"
           >
-            <FaWhatsapp size={20} />
-            <span>WhatsApp</span>
+            {dict.nav.book}
           </a>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 }
