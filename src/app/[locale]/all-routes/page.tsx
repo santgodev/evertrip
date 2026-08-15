@@ -1,9 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { FaClock, FaUsers, FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { routes, getPriceCards } from "@/data/routes";
 import { locales, isLocale, defaultLocale, type Locale } from "@/i18n/config";
+import RouteCard from "@/components/RouteCard";
 
 const content = {
   es: {
@@ -72,42 +70,14 @@ export default async function AllRoutesPage({
             const startingPrice = priceCards[0]?.price;
 
             return (
-              <div key={route.slug} className="relative h-80 md:h-[22rem] rounded-3xl overflow-hidden group shadow-md">
-                {route.image && (
-                  <Image
-                    src={route.image}
-                    alt={route.h1[locale]}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-                <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-sm text-brand-navy text-xs font-bold px-4 py-2 rounded-full z-10 shadow-sm">
-                  {startingPrice ? `${t.from} ${startingPrice}` : t.quote}
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
-                  <h2 className="font-bold text-xl mb-2 font-sans leading-tight">{route.h1[locale]}</h2>
-                  
-                  <div className="flex items-center text-xs text-white/90 gap-3 mb-3">
-                    <span className="flex items-center gap-1.5"><FaUsers className="text-white/70" /> {route.idealFor[locale]}</span>
-                    <span className="text-white/30">|</span>
-                    <span className="flex items-center gap-1.5"><FaClock className="text-white/70" /> {route.duration[locale]}</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-xs text-white/80">
-                    <span className="flex items-center gap-1.5">
-                      <FaMapMarkerAlt className="text-red-400" /> Costa Caribe
-                    </span>
-                    <span className="flex items-center gap-1 text-brand-gold font-semibold"><FaStar /> 4.8</span>
-                  </div>
-                </div>
-
-                <Link href={`/${locale}/${route.slug}`} className="absolute inset-0 z-20">
-                  <span className="sr-only">{route.h1[locale]}</span>
-                </Link>
-              </div>
+              <RouteCard
+                key={route.slug}
+                route={route}
+                locale={locale}
+                startingPrice={startingPrice}
+                from={t.from}
+                quote={t.quote}
+              />
             );
           })}
         </div>

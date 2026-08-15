@@ -34,6 +34,7 @@ export interface RouteDefinition {
   waMessage: Localized;
   priceMode: PriceMode;
   image?: string;
+  image2?: string;
 }
 
 const WHATSAPP_NUMBER = "573147659756";
@@ -139,7 +140,8 @@ export const routes: RouteDefinition[] = [
       es: "Hola, necesito un transporte privado de Barranquilla a Palomino.",
       en: "Hi, I need a private transfer from Barranquilla to Palomino.",
     },
-    image: "/assets/lugares/real-suv.jpg",
+    image: "/assets/lugares/barranquilla.jpg",
+    image2: "/assets/lugares/palomino.jpg",
   },
   {
     slug: "barranquilla-to-santa-marta",
@@ -197,7 +199,8 @@ export const routes: RouteDefinition[] = [
       es: "Hola, necesito un transporte privado entre Barranquilla y Santa Marta.",
       en: "Hi, I need a private transfer between Barranquilla and Santa Marta.",
     },
-    image: "/assets/lugares/santa-marta.jpg",
+    image: "/assets/lugares/barranquilla.jpg",
+    image2: "/assets/lugares/santa-marta.jpg",
   },
   {
     slug: "barranquilla-to-valledupar",
@@ -255,7 +258,8 @@ export const routes: RouteDefinition[] = [
       es: "Hola, quiero cotizar un viaje desde Barranquilla hasta Valledupar.",
       en: "Hi, I'd like a quote for a trip from Barranquilla to Valledupar.",
     },
-    image: "/assets/lugares/valledupar.jpg",
+    image: "/assets/lugares/barranquilla.jpg",
+    image2: "/assets/lugares/valledupar.jpg",
   },
   {
     slug: "private-transfer-santa-marta-cartagena",
@@ -295,7 +299,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un transporte privado entre Santa Marta y Cartagena.", en: "Hi, I need a private transfer between Santa Marta and Cartagena." },
-    image: "/assets/lugares/real-van.jpg",
+    image: "/assets/lugares/santa-marta.jpg",
+    image2: "/assets/lugares/cartagena.jpg",
   },
   {
     slug: "santa-marta-to-minca",
@@ -333,7 +338,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un transporte a Minca.", en: "Hi, I need a transfer to Minca." },
-    image: "/assets/lugares/minca.jpg",
+    image: "/assets/lugares/santa-marta.jpg",
+    image2: "/assets/lugares/minca.jpg",
   },
   {
     slug: "cartagena-airport-to-santa-marta",
@@ -371,7 +377,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un traslado desde el Aeropuerto de Cartagena a Santa Marta.", en: "Hi, I need a transfer from Cartagena Airport to Santa Marta." },
-    image: "/assets/lugares/real-group-transfer.jpg",
+    image: "/assets/lugares/cartagena.jpg",
+    image2: "/assets/lugares/santa-marta.jpg",
   },
   {
     slug: "santa-marta-to-palomino",
@@ -418,7 +425,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un transporte privado de Santa Marta a Palomino.", en: "Hi, I need a private transfer from Santa Marta to Palomino." },
-    image: "/assets/lugares/palomino.jpg",
+    image: "/assets/lugares/santa-marta.jpg",
+    image2: "/assets/lugares/palomino.jpg",
   },
   {
     slug: "santa-marta-to-tayrona",
@@ -456,7 +464,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un transporte a Parque Tayrona.", en: "Hi, I need a transfer to Tayrona Park." },
-    image: "/assets/lugares/tayrona.jpg",
+    image: "/assets/lugares/santa-marta.jpg",
+    image2: "/assets/lugares/tayrona.jpg",
   },
   {
     slug: "cartagena-to-barranquilla",
@@ -494,7 +503,8 @@ export const routes: RouteDefinition[] = [
       },
     ],
     waMessage: { es: "Hola, necesito un transporte privado entre Cartagena y Barranquilla.", en: "Hi, I need a private transfer between Cartagena and Barranquilla." },
-    image: "/assets/lugares/real-bus-interior.jpg",
+    image: "/assets/lugares/cartagena.jpg",
+    image2: "/assets/lugares/barranquilla.jpg",
   },
   {
     slug: "custom-private-routes",
