@@ -50,8 +50,8 @@ export async function generateMetadata({
     title: meta.title,
     description: meta.description,
     icons: {
-      icon: "/assets/logo2-rounded.png",
-      apple: "/assets/logo2-rounded.png",
+      icon: "/assets/logo2-rounded-small.png",
+      apple: "/assets/logo2-rounded-small.png",
     },
     alternates: {
       canonical: `/${locale}`,

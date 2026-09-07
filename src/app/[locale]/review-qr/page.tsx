@@ -36,7 +36,7 @@ export default function ReviewQRPage() {
             {/* Logo */}
             <div className="mb-10 mt-6">
               <Image
-                src="/assets/logo2-normal.png"
+                src="/assets/logo2-normal-small.png"
                 alt="Evertrip Logo"
                 width={400}
                 height={150}
