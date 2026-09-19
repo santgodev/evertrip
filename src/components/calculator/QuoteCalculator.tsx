@@ -54,10 +54,10 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
       <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/10 rounded-full blur-[40px] pointer-events-none"></div>
 
       <div className="mb-8 relative z-10">
-        <h3 className="font-bold text-2xl text-brand-navy mb-2">
+        <h2 className="font-bold text-2xl text-brand-navy mb-2">
           {locale === "es" ? "Cotiza tu viaje" : "Quote your trip"}
-        </h3>
-        <p className="text-brand-carbon/60 text-sm">
+        </h2>
+        <p className="text-brand-carbon/80 text-sm">
           {locale === "es" ? "Selecciona la cantidad de pasajeros" : "Select the number of passengers"}
         </p>
       </div>
@@ -68,6 +68,7 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
           <button
             onClick={decrement}
             disabled={passengers <= 1}
+            aria-label={locale === "es" ? "Disminuir pasajeros" : "Decrease passengers"}
             className="w-12 h-12 rounded-xl flex items-center justify-center bg-white text-brand-navy hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm border border-gray-100"
           >
             <FaMinus />
@@ -81,6 +82,7 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
           <button
             onClick={increment}
             disabled={passengers >= 30}
+            aria-label={locale === "es" ? "Aumentar pasajeros" : "Increase passengers"}
             className="w-12 h-12 rounded-xl flex items-center justify-center bg-white text-brand-navy hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm border border-gray-100"
           >
             <FaPlus />
@@ -94,11 +96,11 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
           {quote.vehicle.image ? (
             <Image src={quote.vehicle.image} alt={vehicleName} fill className="object-cover" />
           ) : (
-            <FaCarSide size={40} className="text-gray-300" />
+            <FaCarSide size={40} className="text-gray-400" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
           <div className="absolute bottom-3 left-4 text-white">
-             <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-brand-accent px-2.5 py-0.5 rounded-full mb-1.5 inline-block shadow-sm backdrop-blur-sm border border-white/20">
+             <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-brand-navy px-2.5 py-0.5 rounded-full mb-1.5 inline-block shadow-sm backdrop-blur-sm border border-white/20">
                 {locale === "es" ? "Vehículo Asignado" : "Assigned Vehicle"}
               </span>
               <h4 className="font-bold text-xl md:text-2xl leading-tight drop-shadow-lg">{vehicleName}</h4>
@@ -122,7 +124,7 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
       {/* Price and CTA */}
       <div className="relative z-10 border-t border-gray-100 pt-6">
         <div className="flex justify-between items-end mb-6">
-          <span className="text-brand-carbon/60 font-bold uppercase tracking-wider text-sm">
+          <span className="text-brand-carbon/80 font-bold uppercase tracking-wider text-sm">
             {locale === "es" ? "Precio Total" : "Total Price"}
           </span>
           <div className="text-right">
@@ -143,7 +145,7 @@ export default function QuoteCalculator({ routeSlug, locale, routeTitle, waBaseM
         </a>
         
         <div className="mt-4 text-center">
-           <p className="text-xs text-brand-carbon/50 font-medium uppercase tracking-wider">
+           <p className="text-xs text-brand-carbon/70 font-medium uppercase tracking-wider">
              {locale === "es" ? "Pago directo al conductor" : "Direct payment to driver"}
            </p>
         </div>

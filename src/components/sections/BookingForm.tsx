@@ -75,33 +75,33 @@ export default function BookingForm({ locale }: { locale: Locale }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
               
               <div className="md:col-span-2">
-                <label className={labelClass}>{t.fields.name}</label>
-                <input required type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} />
+                <label htmlFor="booking-name" className={labelClass}>{t.fields.name}</label>
+                <input id="booking-name" required type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} />
               </div>
 
               <div>
-                <label className={labelClass}>{t.fields.origin}</label>
-                <input required type="text" name="origin" value={formData.origin} onChange={handleChange} className={inputClass} />
+                <label htmlFor="booking-origin" className={labelClass}>{t.fields.origin}</label>
+                <input id="booking-origin" required type="text" name="origin" value={formData.origin} onChange={handleChange} className={inputClass} />
               </div>
 
               <div>
-                <label className={labelClass}>{t.fields.destination}</label>
-                <input required type="text" name="destination" value={formData.destination} onChange={handleChange} className={inputClass} />
+                <label htmlFor="booking-destination" className={labelClass}>{t.fields.destination}</label>
+                <input id="booking-destination" required type="text" name="destination" value={formData.destination} onChange={handleChange} className={inputClass} />
               </div>
 
               <div>
-                <label className={labelClass}>{t.fields.date}</label>
-                <input required type="date" name="date" value={formData.date} onChange={handleChange} className={`${inputClass} [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert opacity-80 focus:opacity-100`} />
+                <label htmlFor="booking-date" className={labelClass}>{t.fields.date}</label>
+                <input id="booking-date" required type="date" name="date" value={formData.date} onChange={handleChange} className={`${inputClass} [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert opacity-80 focus:opacity-100`} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>{t.fields.passengers}</label>
-                  <input required type="number" min="1" name="passengers" value={formData.passengers} onChange={handleChange} className={inputClass} />
+                  <label htmlFor="booking-passengers" className={labelClass}>{t.fields.passengers}</label>
+                  <input id="booking-passengers" required type="number" min="1" name="passengers" value={formData.passengers} onChange={handleChange} className={inputClass} />
                 </div>
                 <div>
-                  <label className={labelClass}>{t.fields.vehicle}</label>
-                  <select required name="vehicle" value={formData.vehicle} onChange={handleChange} className={`${inputClass} bg-transparent`}>
+                  <label htmlFor="booking-vehicle" className={labelClass}>{t.fields.vehicle}</label>
+                  <select id="booking-vehicle" required name="vehicle" value={formData.vehicle} onChange={handleChange} className={`${inputClass} bg-transparent`}>
                     <option value="" disabled className="text-black">...</option>
                     {t.vehicles.map((v) => <option key={v} value={v} className="text-black bg-white">{v}</option>)}
                   </select>

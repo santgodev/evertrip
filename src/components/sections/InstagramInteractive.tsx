@@ -187,6 +187,7 @@ export default function InstagramInteractive({ t }: { t: any }) {
                 <button
                   key={post.id}
                   onClick={() => setActiveIndex(idx)}
+                  aria-label={`Ver reel ${idx + 1}`}
                   className={`relative flex-1 rounded-xl overflow-hidden transition-all duration-300 ${
                     idx === activeIndex 
                       ? 'ring-2 ring-[#109B96] ring-offset-2 ring-offset-[#FCF8F2] scale-105 shadow-md' 
@@ -216,7 +217,7 @@ export default function InstagramInteractive({ t }: { t: any }) {
       <div className="flex-1 text-center md:text-left mt-4 md:mt-0">
         {/* Tag */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#0A1D31]/10 bg-white mb-8 shadow-sm">
-          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#109B96]">{t.tag}</span>
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#0A1D31]">{t.tag}</span>
         </div>
 
         {/* Title */}

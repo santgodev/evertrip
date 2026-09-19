@@ -116,10 +116,10 @@ export default function Hero({ locale }: { locale: Locale }) {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="w-full max-w-md bg-white p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100"
           >
-            <h3 className="text-sm font-semibold text-brand-text-primary mb-4 flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-brand-text-primary mb-4 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-brand-accent"></span>
               {t.quickQuote}
-            </h3>
+            </h2>
             
             <form onSubmit={handleBooking} className="flex flex-col gap-4">
               <div className="flex flex-col sm:flex-row gap-4">
@@ -131,6 +131,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                   <select
                     id="hero-origin"
                     required
+                    aria-label={t.from}
                     value={formData.origin}
                     onChange={(e) => setFormData({...formData, origin: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-10 text-sm focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all appearance-none cursor-pointer text-brand-text-primary font-medium"
@@ -153,6 +154,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                   <select
                     id="hero-destination"
                     required
+                    aria-label={t.to}
                     value={formData.destination}
                     onChange={(e) => setFormData({...formData, destination: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-10 text-sm focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all appearance-none cursor-pointer text-brand-text-primary font-medium"
@@ -180,6 +182,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                     min="1"
                     max="30"
                     placeholder={t.pax}
+                    aria-label={t.pax}
                     required
                     value={formData.pax}
                     onChange={(e) => setFormData({...formData, pax: e.target.value})}
@@ -188,6 +191,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                 </div>
                 <button 
                   type="submit"
+                  aria-label={t.quickQuote}
                   className="bg-brand-accent hover:bg-brand-accent-light text-white px-6 rounded-xl flex items-center justify-center transition-colors shadow-md hover:shadow-brand-accent/30 min-h-[44px]"
                 >
                   <ArrowRight size={20} />
@@ -211,6 +215,7 @@ export default function Hero({ locale }: { locale: Locale }) {
               src="https://www.youtube.com/embed/QbrpOFVaFbA?autoplay=0&rel=0&v=newlogo" 
               title="YouTube video player" 
               frameBorder="0" 
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowFullScreen
               className="absolute inset-0 w-full h-full"
